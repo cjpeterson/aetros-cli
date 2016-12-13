@@ -19,6 +19,7 @@ from PIL import Image
 
 from aetros.utils import get_option
 from .network import ensure_dir
+from .AetrosBackend import invalid_json_values
 
 from threading import Thread, Lock
 from six.moves.queue import Queue
@@ -412,7 +413,7 @@ def get_images(job_model, dataset, node, trainer):
     classes_changed = False
     config_changed = False
     had_previous = False
-    classes_md5 = hashlib.md5(json.dumps(classes)).hexdigest()
+    classes_md5 = hashlib.md5(json.dumps(classes, default=invalid_json_values)).hexdigest()
 
     validationFactor = 0.2
 
@@ -501,7 +502,7 @@ def get_images(job_model, dataset, node, trainer):
                     'classes_md5': classes_md5,
                     'config': config
                 }
-                json.dump(meta, f)
+                json.dump(meta, f, default=invalid_json_values)
 
         except KeyboardInterrupt:
             controller['running'] = False
