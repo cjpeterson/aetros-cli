@@ -413,7 +413,7 @@ def get_images(job_model, dataset, node, trainer):
     classes_changed = False
     config_changed = False
     had_previous = False
-    classes_md5 = hashlib.md5(json.dumps(classes, default=invalid_json_values)).hexdigest()
+    classes_md5 = hashlib.md5(json.dumps(classes, default=invalid_json_values).encode('utf-8')).hexdigest()
 
     validationFactor = 0.2
 

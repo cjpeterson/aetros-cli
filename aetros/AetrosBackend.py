@@ -25,7 +25,9 @@ def invalid_json_values(obj):
         return obj.item()
     if isinstance(obj, numpy.ndarray):
         return obj.tolist()
-    raise TypeError('Invalid json value passed to encoder')
+    if isinstance(obj, bytes):
+        return obj.decode('cp437')
+    raise TypeError('Invalid data type passed to json encoder: ' + type(obj))
 
 
 class EventListener:
